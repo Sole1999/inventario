@@ -123,9 +123,9 @@ references tipo_documentos (codigo)
 );
 
 insert into proveedores (identificador,tipo_de_documento_fk,nombre,telefono,correo,direccion)
-values('1792285747','C','SANTIAGO MOSQUERA','0992920306','zantycb89@gmail.com', 'Cumbayork');
+values('1792285747','C','Santiago Mosquera','0992920306','zantycb89@gmail.com', 'Cumbayork');
 insert into proveedores (identificador,tipo_de_documento_fk,nombre,telefono,correo,direccion)
-values('1792285747001','R','SNACKS SA','0992920398','snacks@gmail.com', 'La Tola');
+values('1792285747001','R','Snacks SA','0992920398','snacks@gmail.com', 'La Tola');
 
 select * from proveedores;
 
@@ -210,7 +210,7 @@ values('20/11/2023 20:00','VENTA 1',4,1);
 
 select * from historial_stocks;
 
-drop table if exists cabecera_ventas;
+drop table if exists cabecera_ventas cascade;
 create table cabecera_ventas(
 codigo serial,
 fecha TIMESTAMP without time zone not null,
