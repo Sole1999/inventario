@@ -169,19 +169,19 @@ codigo serial,
 cabecera_pedido int not null,
 producto int not null, 
 cantidad_solicitada int not null,
-subtotal money,
 cantidad_recibida int not null,
+subtotal money,
 constraint codigo_detalle_pk primary key (codigo),
 constraint cabecera_pedido_fk foreign key (cabecera_pedido)
 references cabecera_pedido(numero)
 );
 
-insert into detalle_pedido(cabecera_pedido,producto,cantidad_solicitada,subtotal,cantidad_recibida)
-values(1,1,100,37.29,100);
-insert into detalle_pedido(cabecera_pedido,producto,cantidad_solicitada,subtotal,cantidad_recibida)
-values(1,4,50,11.80,50);
-insert into detalle_pedido(cabecera_pedido,producto,cantidad_solicitada,subtotal,cantidad_recibida)
-values(2,1,10,3.73,10);
+insert into detalle_pedido(cabecera_pedido,producto,cantidad_solicitada,cantidad_recibida,subtotal)
+values(1,1,100,100,37.29);
+insert into detalle_pedido(cabecera_pedido,producto,cantidad_solicitada,cantidad_recibida,subtotal)
+values(1,4,50,50,11.80);
+insert into detalle_pedido(cabecera_pedido,producto,cantidad_solicitada,cantidad_recibida,subtotal)
+values(2,1,10,10,3.73);
 
 select * from detalle_pedido;
 
