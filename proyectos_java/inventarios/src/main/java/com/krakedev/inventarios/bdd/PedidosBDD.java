@@ -6,10 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
 import com.krakedev.inventarios.entidades.DetallePedido;
+import com.krakedev.inventarios.entidades.HistorialStock;
 import com.krakedev.inventarios.entidades.Pedido;
 import com.krakedev.inventarios.excepciones.KrakeDevException;
 import com.krakedev.inventarios.utils.ConexionBDD;
@@ -78,6 +80,13 @@ public class PedidosBDD {
 		Connection con= null;
 		PreparedStatement ps = null;
 		PreparedStatement ps2 = null;
+		PreparedStatement ps3 = null;
+		
+		Date fechaActual = new Date();
+		Timestamp fechaHoraActual = new Timestamp(fechaActual.getTime());
+		
+		ResultSet clave = null;
+		int codigoDetalle = 0;
 
 		try {
 			con = ConexionBDD.obtenerConexion();
@@ -92,7 +101,14 @@ public class PedidosBDD {
 			DetallePedido det;
 			for(int i=0; i<detalle.size(); i++) {
 				det = detalle.get(i);
-				ps2 = con.prepareStatement("update detalle_pedido set cantidad_recibida = ? , subtotal = ? where codigo = ? ");
+				ps2 = con.prepareStatement("update detalle_pedido set cantidad_recibida = ? , subtotal = ? where codigo = ? ", 
+						Statement.RETURN_GENERATED_KEYS);
+				
+				//clave = ps.getGeneratedKeys();
+				
+				/*if(clave.next()) {
+					codigoDetalle = clave.getInt(1);
+				}*/
 				
 				ps2.setInt(1, det.getCantidadRecibida());
 				BigDecimal pv = det.getProducto().getPrecioVenta();
@@ -102,6 +118,17 @@ public class PedidosBDD {
 				ps2.setInt(3, det.getCodigo());
 				
 				ps2.executeUpdate();
+				
+				ArrayList<HistorialStock> historial = det.getHistorial();
+				
+				ps3 = con.prepareStatement("insert into historial_stocks(fecha,referencia,producto_fk,cantidad) "
+						+ "values(?, ?, ?, ?);");
+				ps3.setTimestamp(1, fechaHoraActual);
+				ps3.setString(2, "PEDIDO "+ det.getCodigo());
+				ps3.setInt(3, det.getProducto().getCodigo());
+				ps3.setInt(4, det.getCantidadRecibida());
+				
+				ps3.executeUpdate();
 			} 
 		} catch (KrakeDevException e) {
 			e.printStackTrace();

@@ -1,6 +1,7 @@
 package com.krakedev.inventarios.entidades;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 public class DetallePedido {
 
@@ -10,6 +11,8 @@ public class DetallePedido {
 	private int cantidadSolicitada;
 	private BigDecimal subtotal;
 	private int cantidadRecibida;
+	
+	private ArrayList<HistorialStock> historial;
 	
 	public DetallePedido() {
 		
@@ -60,6 +63,16 @@ public class DetallePedido {
 	}
 	public void setCantidadRecibida(int cantidadRecibida) {
 		this.cantidadRecibida = cantidadRecibida;
+	}
+	
+	
+
+	public ArrayList<HistorialStock> getHistorial() {
+		return historial;
+	}
+
+	public void setHistorial(ArrayList<HistorialStock> historial) {
+		this.historial = historial;
 	}
 
 	@Override
