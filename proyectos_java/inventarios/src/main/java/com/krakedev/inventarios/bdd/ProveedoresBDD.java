@@ -64,7 +64,7 @@ public class ProveedoresBDD {
 			con = ConexionBDD.obtenerConexion();
 			ps = con.prepareStatement("insert into proveedores (identificador,tipo_de_documento_fk,nombre,telefono,correo,direccion) "
 					+"values(?,?,?,?,?,?)");
-			ps.setString(1, proveedor.getIndentificador());
+			ps.setString(1, proveedor.getIdentificador());
 			ps.setString(2, proveedor.getTipoDocumento().getCodigo());
 			ps.setString(3, proveedor.getNombre());
 			ps.setString(4, proveedor.getTelefono());
