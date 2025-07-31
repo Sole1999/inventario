@@ -28,3 +28,27 @@ and upper(prod.nombre) like '%M%'
 select * from productos prod, unidades_medida udm, categorias cat
 where prod.udm = udm.nombre
 and prod.categoria = cat.codigo_cat
+
+select * from proveedores
+select * from cabecera_pedido
+select * from detalle_pedido
+
+select dt.*, prov.* from detalle_pedido dt, proveedores prov, cabecera_pedido cb
+where dt.cabecera_pedido = cb.numero
+and cb.proveedor like '0925417560' 
+and cb.proveedor = prov.identificador
+
+select dt.* from detalle_pedido dt, proveedores prov, cabecera_pedido cb
+where dt.cabecera_pedido = cb.numero
+and cb.proveedor like '0925417560' 
+and cb.proveedor = prov.identificador
+
+select * from proveedores where identificador like '0925417560'
+
+select * from productos where codigo_producto = 6
+
+
+select * from productos;
+select * from categorias;
+select * from proveedores;
+select * from productos;

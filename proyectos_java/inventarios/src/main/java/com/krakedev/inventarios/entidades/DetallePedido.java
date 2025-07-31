@@ -18,15 +18,14 @@ public class DetallePedido {
 		
 	}
 	
-	public DetallePedido(int codigo, Pedido cabecera, Productos producto, int cantidadSolicitada, BigDecimal subtotal,
-			int cantidadRecibida) {
+	public DetallePedido(int codigo, Pedido cabecera, Productos producto, int cantidadSolicitada, int cantidadRecibida, BigDecimal subtotal) {
 		super();
 		this.codigo = codigo;
 		this.cabecera = cabecera;
 		this.producto = producto;
 		this.cantidadSolicitada = cantidadSolicitada;
-		this.subtotal = subtotal;
 		this.cantidadRecibida = cantidadRecibida;
+		this.subtotal = subtotal;
 	}
 	public int getCodigo() {
 		return codigo;

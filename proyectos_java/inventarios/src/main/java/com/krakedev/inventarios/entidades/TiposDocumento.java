@@ -15,6 +15,11 @@ public class TiposDocumento {
 		this.descripcion = descripcion;
 	}
 	
+	public TiposDocumento(String descripcion) {
+		super();
+		this.descripcion = descripcion;
+	}
+	
 	
 	public String getCodigo() {
 		return codigo;

@@ -13,6 +13,7 @@ import java.util.Date;
 import com.krakedev.inventarios.entidades.DetallePedido;
 import com.krakedev.inventarios.entidades.HistorialStock;
 import com.krakedev.inventarios.entidades.Pedido;
+import com.krakedev.inventarios.entidades.Productos;
 import com.krakedev.inventarios.excepciones.KrakeDevException;
 import com.krakedev.inventarios.utils.ConexionBDD;
 
@@ -138,4 +139,59 @@ public class PedidosBDD {
 			throw new KrakeDevException("Error al registrar pedido recibido. Detalle: "+ e.getMessage());
 		}
 	}
+	
+	
+	public ArrayList<DetallePedido> traerPedidosPorProveedor(String identificador) throws KrakeDevException{
+		
+		ArrayList<DetallePedido> pedidos = new ArrayList<DetallePedido>();
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			con = ConexionBDD.obtenerConexion();
+			ps = con.prepareStatement("select dt.* from detalle_pedido dt, proveedores prov, cabecera_pedido cb "
+					+ "where dt.cabecera_pedido = cb.numero "
+					+ "and cb.proveedor like ? "
+					+ "and cb.proveedor = prov.identificador ");
+			ps.setString(1, identificador);
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				int codigoPedido = rs.getInt("codigo");
+				int cabeceraPedido = rs.getInt("cabecera_pedido");
+				int producto = rs.getInt("producto");
+				int cantidadSolicitada = rs.getInt("cantidad_solicitada");
+				int cantidadRecibida = rs.getInt("cantidad_recibida");
+				BigDecimal subtotal = rs.getBigDecimal("subtotal");
+				
+				Productos productoClase = new Productos();
+				productoClase.setCodigo(producto);
+				
+				Pedido pedidoClase = new Pedido();
+				pedidoClase.setCodigo(cabeceraPedido);
+				/*
+				Productos codigoProducto;
+				codigoProducto.setCodigo(producto);
+				
+				Pedido codidoCabecera;
+				codidoCabecera.setCodigo(cabeceraPedido);
+				*/
+				DetallePedido pedido = new DetallePedido(codigoPedido, pedidoClase, productoClase, cantidadSolicitada, cantidadRecibida, subtotal);
+				pedidos.add(pedido);
+			}
+			
+		} catch (KrakeDevException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new KrakeDevException("Error al traer pedido por proveedor. Detalles: "+e.getMessage());
+		}
+		
+		
+		return pedidos;
+	}
+	
 }

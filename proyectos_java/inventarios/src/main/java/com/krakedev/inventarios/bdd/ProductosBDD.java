@@ -111,4 +111,82 @@ public class ProductosBDD {
 			throw new KrakeDevException("Error al insertar producto.  Detalle: "+ e.getMessage());
 		}
 	}
+	
+	public void actualizar(Productos producto) throws KrakeDevException{
+		Connection con = null;
+		PreparedStatement ps = null;
+		
+		try {
+			con = ConexionBDD.obtenerConexion();
+			ps = con.prepareStatement("Update productos SET nombre = ?, udm = ?, precio_de_venta = ?, tiene_iva = ?, coste = ?, categoria = ?, stock = ? WHERE codigo_producto = ? ");
+			ps.setString(1, producto.getNombre());
+			ps.setString(2, producto.getUdm().getNombre());
+			ps.setBigDecimal(3, producto.getPrecioVenta());
+			ps.setBoolean(4, producto.isTieneIva());
+			ps.setBigDecimal(5, producto.getCoste());
+			ps.setInt(6, producto.getCategoria().getCodigo());
+			ps.setInt(7, producto.getStock());
+			ps.setInt(8, producto.getCodigo());
+			
+			ps.executeUpdate();
+			
+		} catch (KrakeDevException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new KrakeDevException("Error al actualizar producto.  Detalle: "+ e.getMessage());
+		}
+	}
+	
+	public ArrayList<Productos> buscarPorId(int id) throws KrakeDevException{
+		ArrayList<Productos> productos = new ArrayList<Productos>();
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			con = ConexionBDD.obtenerConexion();
+			ps = con.prepareStatement("select * from productos where codigo_producto = ? ");
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				int codigo = rs.getInt("codigo_producto");
+				String nombre = rs.getString("nombre");
+				String udm = rs.getString("udm");
+				BigDecimal precioVenta = rs.getBigDecimal("precio_de_venta");
+				boolean tieneIva = rs.getBoolean("tiene_iva");
+				BigDecimal coste = rs.getBigDecimal("coste");
+				int categoria = rs.getInt("categoria");
+				int stock = rs.getInt("stock");
+				
+				Categorias categoriaClase = new Categorias();
+				categoriaClase.setCodigo(categoria);
+				
+				UnidadesMedida udmClase = new UnidadesMedida();
+				udmClase.setDescripcion(udm);
+				
+				Productos productoId = new Productos();
+				productoId.setCodigo(codigo);
+				productoId.setNombre(nombre);
+				productoId.setUdm(udmClase);
+				productoId.setPrecioVenta(precioVenta);
+				productoId.setTieneIva(tieneIva);
+				productoId.setCoste(coste);
+				productoId.setCategoria(categoriaClase);
+				productoId.setStock(stock);
+				productos.add(productoId);
+				
+			}
+		} catch (KrakeDevException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new KrakeDevException("Error al buscar producto por id. Detalle "+e.getMessage());
+		}
+		return productos;
+	}
+	
 }

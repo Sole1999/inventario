@@ -81,4 +81,45 @@ public class ProveedoresBDD {
 			throw new KrakeDevException("Error al insertar proveedor. Detalle: "+e.getMessage());
 		}
 	}
+	
+	
+	public ArrayList<Proveedor> buscarPorId(String identificador) throws KrakeDevException{
+		
+		ArrayList<Proveedor> proveedorId = new ArrayList<Proveedor>();
+		Connection con = null;
+		PreparedStatement ps = null;
+		Proveedor proveedor = null;
+		ResultSet rs = null;
+		
+		try {
+			con = ConexionBDD.obtenerConexion();
+			
+			ps = con.prepareStatement("select * from proveedores where identificador like ?");
+			ps.setString(1, identificador);
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				String id = rs.getString("identificador");
+				String tipoDocumento = rs.getString("tipo_de_documento_fk");
+				String nombre = rs.getString("nombre");
+				String telefono = rs.getString("telefono");
+				String correo = rs.getString("correo");
+				String direccion = rs.getString("direccion");
+				
+				TiposDocumento tipo = new TiposDocumento(tipoDocumento);
+				proveedor = new Proveedor(id, tipo, nombre, telefono, correo, direccion);
+				proveedorId.add(proveedor);
+			}
+			
+		} catch (KrakeDevException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new KrakeDevException("Error al buscar proveedor por id. Detalle: "+e.getMessage());
+		}
+			
+		return proveedorId;
+	}
 }

@@ -126,6 +126,8 @@ insert into proveedores (identificador,tipo_de_documento_fk,nombre,telefono,corr
 values('1792285747','C','Santiago Mosquera','0992920306','zantycb89@gmail.com', 'Cumbayork');
 insert into proveedores (identificador,tipo_de_documento_fk,nombre,telefono,correo,direccion)
 values('1792285747001','R','Snacks SA','0992920398','snacks@gmail.com', 'La Tola');
+insert into proveedores (identificador,tipo_de_documento_fk,nombre,telefono,correo,direccion)
+values('0925417560','C','Comida SA','0978956320','cimda@gmail.com', 'La Botanica');
 
 select * from proveedores;
 
@@ -160,6 +162,8 @@ insert into cabecera_pedido(proveedor,fecha,estado_fk)
 values('1792285747', '20/11/2023', 'R');
 insert into cabecera_pedido(proveedor,fecha,estado_fk)
 values('1792285747', '20/11/2023', 'R');
+insert into cabecera_pedido(proveedor,fecha,estado_fk)
+values('0925417560', '18/12/2023', 'R');
 
 select * from cabecera_pedido;
 
@@ -182,6 +186,8 @@ insert into detalle_pedido(cabecera_pedido,producto,cantidad_solicitada,cantidad
 values(1,4,50,50,11.80);
 insert into detalle_pedido(cabecera_pedido,producto,cantidad_solicitada,cantidad_recibida,subtotal)
 values(2,1,10,10,3.73);
+insert into detalle_pedido(cabecera_pedido,producto,cantidad_solicitada,cantidad_recibida,subtotal)
+values(16,3,40,40,51.20);
 
 select * from detalle_pedido;
 
@@ -207,6 +213,8 @@ insert into historial_stocks(fecha,referencia,producto_fk,cantidad)
 values('20/11/2023 20:00','VENTA 1',1,-5);
 insert into historial_stocks(fecha,referencia,producto_fk,cantidad)
 values('20/11/2023 20:00','VENTA 1',4,1);
+insert into historial_stocks(fecha,referencia,producto_fk,cantidad)
+values('18/12/2023 10:00','PEDIDO 3',3,40);
 
 select * from historial_stocks;
 
