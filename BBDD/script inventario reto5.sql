@@ -96,8 +96,8 @@ select * from productos;
 
 drop table if exists tipo_documentos cascade;
 create table tipo_documentos(
-codigo char(1) not null,
-descripcion varchar(6),
+codigo char(3) not null,
+descripcion varchar(10),
 constraint codigo_pk primary key (codigo)
 );
 
