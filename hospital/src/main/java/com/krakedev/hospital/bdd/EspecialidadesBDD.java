@@ -44,4 +44,31 @@ public ArrayList<Especialidades> recuperarTodo() throws KrakeDevException{
 		
 		return especialidades;
 	}
+
+
+public void agregarEspecialidad(Especialidades especialidad) throws KrakeDevException {
+	
+	
+	Connection con = null;
+	PreparedStatement ps = null;
+		
+	try{
+		con = ConexionBDD.obtenerConexion();
+		ps = con.prepareStatement("insert into especialidades(nombre,descripcion) "
+				+ "values(?,?)");
+		ps.setString(1, especialidad.getNombre());
+		ps.setString(2, especialidad.getDescripcion());
+		ps.executeUpdate();
+			
+
+	} catch (KrakeDevException e) {
+		e.printStackTrace();
+		throw e;
+	} catch (SQLException e) {
+	
+		e.printStackTrace();
+		throw new KrakeDevException("Error al consultar detalle:"+e.getMessage());		
+	}		
+}
+
 }

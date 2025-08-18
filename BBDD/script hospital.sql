@@ -17,7 +17,7 @@ insert into especialidades(nombre, descripcion) values
 
 select * from especialidades;
 
-
+/*
 drop table if exists medicos cascade;
 CREATE TABLE medicos (
 id VARCHAR(13) PRIMARY KEY,
@@ -40,12 +40,66 @@ insert into medicos(id, especialidades_id, nombre, apellido, telefono, correo) v
 ('0801237654', 2, 'Diego Armando', 'Castillo Vargas', '0942233445', 'diego.armando.castillo@outlook.com' ),
 ('0209876541', 1, 'Camila Fernanda', 'Herrera Romero', '0923344556', 'camila.fernanda.herrera@gmail.com' ),
 ('1002345679', 6, 'Pedro Antonio', 'Morales Delgado', '0983344556', 'pedro.antonio.morales@yahoo.com' );
+*/
+
+
+
+drop table if exists medicos cascade;
+CREATE TABLE medicos (
+id serial PRIMARY KEY,
+especialidades_id INT NOT NULL,
+nombre varchar(50) not null,
+apellido varchar(50) not null,
+telefono varchar(10) not null,
+correo varchar(50) not null,
+FOREIGN KEY (especialidades_id) REFERENCES especialidades(id)
+);
+
+insert into medicos(especialidades_id, nombre, apellido, telefono, correo) values
+(3, 'Ana María', 'García López', '0991234567', 'ana.maria.garcia@gmail.com' ),
+( 1, 'Luis Fernando', 'López Martínez', '0987654321', 'luis.fernando.lopez@yahoo.com' ),
+( 6, 'María José', 'Pérez Rodríguez', '0961122334', 'maria.jose.perez@hotmail.com' ),
+( 2, 'Carlos Andrés', 'Torres Ramírez', '0955566778', 'carlos.andres.torres@outlook.com' ),
+( 4, 'Sofía Valentina', 'Mendoza Herrera', '0934455667', 'sofia.valentina.mendoza@gmail.com' ),
+( 2, 'Juan Sebastián', 'Rodríguez Morales', '0998765432', 'juan.sebastian.rodriguez@yahoo.com' ),
+( 5, 'Valeria Alejandra', 'Ramírez Castro', '0971239876', 'valeria.alejandra.ramirez@hotmail.com' ),
+( 2, 'Diego Armando', 'Castillo Vargas', '0942233445', 'diego.armando.castillo@outlook.com' ),
+( 1, 'Camila Fernanda', 'Herrera Romero', '0923344556', 'camila.fernanda.herrera@gmail.com' ),
+( 6, 'Pedro Antonio', 'Morales Delgado', '0983344556', 'pedro.antonio.morales@yahoo.com' );
 
 
 select * from medicos;
 
---- AUTOR: PATSY RIOS RON
 
 select md.*, esp.nombre from medicos md, especialidades esp
 					where md.especialidades_id = esp.id
-					and md.id like '1102345678'
+					and md.id = 1
+
+
+
+drop table if exists pacientes cascade;
+CREATE TABLE pacientes (
+id serial PRIMARY KEY,
+nombre varchar(50) not null,
+apellido varchar(50) not null,
+telefono varchar(10) not null
+)
+
+select * from pacientes;
+
+
+drop table if exists citas cascade;
+CREATE TABLE citas (
+id serial PRIMARY KEY,
+paciente_id INT NOT NULL,
+medico_id INT NOT NULL,
+fecha TIMESTAMP without time zone not null,
+servicio varchar(150),
+FOREIGN KEY (paciente_id) REFERENCES pacientes(id),
+FOREIGN KEY (medico_id) REFERENCES medicos(id)
+);
+
+select * from citas;
+
+insert into pacientes (nombre,apellido,telefono)
+values('1','1','1')

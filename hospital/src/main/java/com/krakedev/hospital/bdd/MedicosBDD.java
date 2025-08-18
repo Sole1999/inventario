@@ -13,7 +13,7 @@ import com.krakedev.hospital.utils.ConexionBDD;
 
 public class MedicosBDD {
 	
-public ArrayList<Medicos> traerMedicosPorID(String identificador) throws KrakeDevException{
+public ArrayList<Medicos> traerMedicosPorID(int identificador) throws KrakeDevException{
 		
 		ArrayList<Medicos> medicos = new ArrayList<Medicos>();
 		Connection con = null;
@@ -24,13 +24,13 @@ public ArrayList<Medicos> traerMedicosPorID(String identificador) throws KrakeDe
 			con = ConexionBDD.obtenerConexion();
 			ps = con.prepareStatement("select md.*, esp.nombre from medicos md, especialidades esp "
 					+ " where md.especialidades_id = esp.id"
-					+ "	and md.id like ? ");
-			ps.setString(1, identificador);
+					+ "	and md.id = ? ");
+			ps.setInt(1, identificador);
 			
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				String id = rs.getString("id");
+				int id = rs.getInt("id");
 				int especialidad = rs.getInt("especialidades_id");
 				String nombre = rs.getString("nombre");
 				String apellido = rs.getString("apellido");
@@ -55,5 +55,31 @@ public ArrayList<Medicos> traerMedicosPorID(String identificador) throws KrakeDe
 		
 		return medicos;
 	}
+
+
+public void insertarMedico(Medicos medico) throws KrakeDevException{
+	
+	Connection con = null;
+	PreparedStatement ps = null;
+	
+	try {
+		con = ConexionBDD.obtenerConexion();
+		ps = con.prepareStatement("INSERT INTO medicos (especialidades_id, nombre, apellido, telefono, correo) "
+				+ "values(?, ?, ?, ?, ?)");
+		ps.setInt(1, medico.getEspecialidad().getId());
+		ps.setString(2, medico.getNombre());
+		ps.setString(3, medico.getApellido());
+		ps.setString(4, medico.getTelefono());
+		ps.setString(5, medico.getCorreo());
+		ps.executeUpdate();
+	} catch (KrakeDevException e) {
+		e.printStackTrace();
+		throw e;
+	} catch (SQLException e) {
+		e.printStackTrace();
+		throw new KrakeDevException("Error al insertar medico. Detalle: "+e.getMessage());
+	}
+}
+
 
 }

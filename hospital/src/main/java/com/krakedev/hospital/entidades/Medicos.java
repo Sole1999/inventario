@@ -1,7 +1,7 @@
 package com.krakedev.hospital.entidades;
 
 public class Medicos {
-	private String id;
+	private int id;
 	private Especialidades especialidad;
 	private String nombre;
 	private String apellido;
@@ -12,7 +12,7 @@ public class Medicos {
 		super();
 	}
 	
-	public Medicos(String id, Especialidades especialidad, String nombre, String apellido, String telefono,
+	public Medicos(int id, Especialidades especialidad, String nombre, String apellido, String telefono,
 			String correo) {
 		super();
 		this.id = id;
@@ -24,10 +24,10 @@ public class Medicos {
 	}
 	
 	
-	public String getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public Especialidades getEspecialidad() {
